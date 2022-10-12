@@ -1,26 +1,38 @@
-let slider = [
-   "photos/photo1.jpg",
-   "photos/photo2.jpg",
-   "photos/photo3.jpg",
-]
-let image = document.querySelector(".slider img")
-image.src = slider[0]
+let slide = document.querySelectorAll(".slide")
+var count = 0
 
-let next = document.querySelector(".next");
-let prev = document.querySelector(".prev")
-let count = 0;
-next.onclick = function(){
-   count++
-   if(count > slider.length - 1){
-      count = 0
+function countslide(){
+   for (let index = 0; index < slide.length; index++) {
+         slide[index].style.display = "none"
    }
-   image.src = slider[count];
 }
+function next(){
+   countslide()
+   if(count === slide.length-1) count = -1;
+   count++
+   slide[count].style.display = "block"
+   slide[count].style.opacity = 1
+   var x = 0.4;
+   var tX = setInterval(function(){
+      x+=0.5;
+      slide[count].style.opacity = x;
+      if(x >=1){
+         clearInterval(tX);
+         x = 0.4;
+      }
+   }, 300); 
 
-prev.onclick = function(){
-  count--;
-  if(count == -1){
-   count = slider.length - 1
-  }
-  image.src = slider[count]
 }
+function prev(){
+   countslide()
+   if(count === 0) count = slide.length;
+   count--
+   slide[count].style.display = "block"
+   slide[count].style.opacity = 1
+
+}
+function start(){
+   countslide()
+   slide[count].style.display = "block"
+}
+start()
